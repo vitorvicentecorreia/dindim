@@ -14,7 +14,7 @@ const Transaction: React.FC<TransactionProps> = (props) => {
 	);
 
 	return (
-		<div>
+		<div data-testid="transaction">
 			<div>{props.category}</div>
 			<div>{formattedDate}</div>
 			<div>{props.title}</div>

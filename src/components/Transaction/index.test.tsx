@@ -1,6 +1,9 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import { TransactionProps } from "../../interfaces/Transaction";
+import {
+	TransactionProps,
+	TransactionTypes,
+} from "../../interfaces/Transaction";
 import DefaultProvider from "../../providers/DefaultProvider";
 import Transaction from "./index";
 
@@ -10,6 +13,7 @@ const renderTransaction = (props: Partial<TransactionProps> = {}) => {
 		datetime: new Date("2020-05-13T12:00:00"),
 		title: "Compra do mês",
 		value: 500.5,
+		type: TransactionTypes.Expense,
 	};
 
 	return render(
@@ -27,8 +31,5 @@ test("should render and format data passed by props", () => {
 	const title = getByText("Compra do mês");
 	const value = getByText("R$ 500.50");
 
-	expect(category).toBeTruthy();
-	expect(datetime).toBeTruthy();
-	expect(title).toBeTruthy();
-	expect(value).toBeTruthy();
+	expect(category && datetime && title && value).toBeTruthy();
 });
