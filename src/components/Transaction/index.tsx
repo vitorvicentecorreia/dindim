@@ -1,26 +1,29 @@
-import React, { useMemo } from "react";
+import React, { useMemo, memo } from "react";
 import { TransactionProps } from "../../interfaces/Transaction";
 import currencyFormatted, { currencys } from "../../utils/currency";
 import { defaultFormat } from "../../utils/date";
 
-const Transaction: React.FC<TransactionProps> = (props) => {
-	const formattedDate = useMemo(() => defaultFormat(props.datetime), [
-		props.datetime,
-	]);
+const Transaction: React.FC<TransactionProps> = ({
+	category,
+	datetime,
+	value,
+	description,
+}) => {
+	const formattedDate = useMemo(() => defaultFormat(datetime), [datetime]);
 
 	const formattedValue = useMemo(
-		() => currencyFormatted(currencys.Real, props.value),
-		[props.value]
+		() => currencyFormatted(currencys.Real, value),
+		[value]
 	);
 
 	return (
-		<div data-testid="transaction">
-			<div>{props.category}</div>
+		<div>
+			<div>{category}</div>
 			<div>{formattedDate}</div>
-			<div>{props.title}</div>
+			<div>{description}</div>
 			<div>{formattedValue}</div>
 		</div>
 	);
 };
 
-export default Transaction;
+export default memo(Transaction);

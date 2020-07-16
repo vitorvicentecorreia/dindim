@@ -5,7 +5,7 @@ export enum TransactionTypes {
 }
 
 export interface TransactionProps {
-	title: string;
+	description: string;
 	value: number;
 	category: string;
 	datetime: Date;

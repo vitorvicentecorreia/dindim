@@ -1,33 +1,46 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import DefaultProvider from "../../providers/DefaultProvider";
-import TransactionList from "./index";
+import TransactionList, { noTransactionMessage } from "./index";
 import { TransactionTypes } from "../../interfaces/Transaction";
 import { TransactionListProps } from "../../interfaces/TransactionList";
 
-const renderTransactionList = (props: Partial<TransactionListProps> = {}) => {
-	const defaultProps: TransactionListProps = {
-		transactions: [
-			{
-				category: "mercado",
-				datetime: new Date("2020-05-13T12:00:00"),
-				title: "Compra do mês",
-				value: 500.5,
-				type: TransactionTypes.Transfer,
-			},
-		],
-	};
-
-	return render(
-		<DefaultProvider>
-			<TransactionList {...defaultProps} {...props} />
-		</DefaultProvider>
-	);
+const transactionListMock: TransactionListProps = {
+	transactions: [
+		{
+			category: "mercado",
+			datetime: new Date("2020-05-13T12:00:00"),
+			description: "Compra do mês",
+			value: 500.5,
+			type: TransactionTypes.Transfer,
+		},
+	],
 };
 
-test("should render a list with transactions passed by prop", () => {
-	const { getAllByTestId } = renderTransactionList();
+test(`Dado que o usuário abre o componente de lista de transações,
+	  e ele possui transações salvas,
+	  o componente deve listar as transações.`, () => {
+	render(
+		<DefaultProvider>
+			<TransactionList {...transactionListMock} />
+		</DefaultProvider>
+	);
 
-	const transactions = getAllByTestId("transaction");
-	expect(transactions).toHaveLength(1);
+	const textsOnScreen = ["Compra do mês", "R$ 500.50"];
+
+	textsOnScreen.forEach((text) =>
+		expect(screen.getByText(text)).toBeVisible()
+	);
+});
+
+test(`Dado que o usuário abre o componente de lista de transações,
+	  e ele não possui transações salvas,
+	  o componente deve sinalizar que não possui transações.`, () => {
+	render(
+		<DefaultProvider>
+			<TransactionList />
+		</DefaultProvider>
+	);
+
+	expect(screen.getByText(noTransactionMessage)).toBeVisible();
 });

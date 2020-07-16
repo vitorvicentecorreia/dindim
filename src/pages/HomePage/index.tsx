@@ -1,5 +1,6 @@
 import React from "react";
 import Balance from "../../components/Balance";
+import RoundButton from "../../components/RoundButton";
 import TransactionList from "../../components/TransactionList";
 import {
 	TransactionProps,
@@ -11,14 +12,14 @@ const HomePage: React.FC = () => {
 		{
 			category: "mercado",
 			datetime: new Date(),
-			title: "compra do mês",
+			description: "compra do mês",
 			value: 500,
 			type: TransactionTypes.Recipe,
 		},
 		{
 			category: "padaria",
 			datetime: new Date(),
-			title: "pão",
+			description: "pão",
 			value: 10,
 			type: TransactionTypes.Recipe,
 		},
@@ -28,6 +29,11 @@ const HomePage: React.FC = () => {
 		<div>
 			<Balance balance={1000.5} />
 			<TransactionList transactions={transactions} />
+			<RoundButton
+				clickAction={() => console.log("oi")}
+				color="red"
+				textButton="+"
+			/>
 		</div>
 	);
 };

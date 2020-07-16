@@ -1,5 +1,5 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import {
 	TransactionProps,
 	TransactionTypes,
@@ -7,29 +7,29 @@ import {
 import DefaultProvider from "../../providers/DefaultProvider";
 import Transaction from "./index";
 
-const renderTransaction = (props: Partial<TransactionProps> = {}) => {
-	const defaultProps: TransactionProps = {
-		category: "mercado",
-		datetime: new Date("2020-05-13T12:00:00"),
-		title: "Compra do mês",
-		value: 500.5,
-		type: TransactionTypes.Expense,
-	};
-
-	return render(
-		<DefaultProvider>
-			<Transaction {...defaultProps} {...props} />
-		</DefaultProvider>
-	);
+const transactionMock: TransactionProps = {
+	category: "mercado",
+	datetime: new Date("2020-05-13T12:00:00"),
+	description: "Compra do mês",
+	value: 500.5,
+	type: TransactionTypes.Expense,
 };
 
-test("should render and format data passed by props", () => {
-	const { getByText } = renderTransaction();
+test(`Dado que o usuário abra o componente de transação,
+	  e os dados dessa transação estejam corretos,
+	  as informações da transação devem aparecer na tela`, () => {
+	render(
+		<DefaultProvider>
+			<Transaction {...transactionMock} />
+		</DefaultProvider>
+	);
 
-	const category = getByText("mercado");
-	const datetime = getByText("13/05/2020 12:00");
-	const title = getByText("Compra do mês");
-	const value = getByText("R$ 500.50");
+	const textsOnScreen = [
+		"mercado",
+		"13/05/2020 12:00",
+		"Compra do mês",
+		"R$ 500.50",
+	];
 
-	expect(category && datetime && title && value).toBeTruthy();
+	textsOnScreen.forEach((text) => expect(screen.getByText(text)).toBeVisible);
 });

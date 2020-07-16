@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
 import DefaultProvider from "../../providers/DefaultProvider";
 import RoundButton from "./index";
 import { RoundButtonProps } from "../../interfaces/RoundButton";
@@ -21,18 +21,22 @@ const createRoundButton = (props: Partial<RoundButtonProps> = {}) => {
 	);
 };
 
-test("emit action passed by prop", () => {
-	const { getByText } = createRoundButton();
-	fireEvent.click(getByText("+"));
-	expect(mockFunc).toHaveBeenCalledWith();
+test(`Dado que o usuário clicou no botão,
+	  e ele está habilitado,
+	  a função passada a ele deverá ser acionada.`, () => {
+	createRoundButton();
+	fireEvent.click(screen.getByText("+"));
+	expect(mockFunc).toHaveBeenCalled();
 });
 
-test("if disabled true, not emit action passed by prop", () => {
+test(`Dado que o usuário clicou no botão,
+	  e ele está desabilitado,
+	  a função passada a ele não deverá ser acionada`, () => {
 	const disabledMockFunc = jest.fn();
-	const { getByText } = createRoundButton({
+	createRoundButton({
 		disabled: true,
-		clickAction: () => disabledMockFunc,
+		clickAction: () => disabledMockFunc(),
 	});
-	fireEvent.click(getByText("+"));
+	fireEvent.click(screen.getByText("+"));
 	expect(disabledMockFunc).toHaveBeenCalledTimes(0);
 });

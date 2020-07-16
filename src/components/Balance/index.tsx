@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, memo } from "react";
 import { BalanceProps } from "../../interfaces/Balance";
 import currencyFormatted, { currencys } from "../../utils/currency";
 
@@ -11,4 +11,4 @@ const Balance: React.FC<BalanceProps> = ({ balance }) => {
 	return <div>{formattedBalance}</div>;
 };
 
-export default Balance;
+export default memo(Balance);

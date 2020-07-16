@@ -1,18 +1,15 @@
-import React from "react";
+import React, { memo } from "react";
 import { RoundButtonProps } from "../../interfaces/RoundButton";
 
 const RoundButton: React.FC<RoundButtonProps> = ({
 	textButton,
 	color,
 	clickAction,
-	disabled,
+	disabled = false,
 }) => {
-	const handleClickAction = () => {
-		if (disabled) return;
-		clickAction();
-	};
+	const handleClickAction = () => !disabled && clickAction();
 
 	return <button onClick={() => handleClickAction()}>{textButton}</button>;
 };
 
-export default RoundButton;
+export default memo(RoundButton);

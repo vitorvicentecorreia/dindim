@@ -1,24 +1,21 @@
 import React from "react";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import DefaultProvider from "../../providers/DefaultProvider";
 import Balance from "./index";
 import { BalanceProps } from "../../interfaces/Balance";
 
-const renderBalance = (props: Partial<BalanceProps> = {}) => {
-	const defaultProps: BalanceProps = {
-		balance: 1000.5,
-	};
-
-	return render(
-		<DefaultProvider>
-			<Balance {...defaultProps} {...props} />
-		</DefaultProvider>
-	);
+const balanceMock: BalanceProps = {
+	balance: 1000.5,
 };
 
-test("should render the balance passed per prop", () => {
-	const { getByText } = renderBalance();
-	const balance = getByText("R$ 1000.50");
+test(`Dado que o usuário abre o Balance,
+	  e possui um balanço válido,
+	  ele deve ser aparecer na tela`, () => {
+	render(
+		<DefaultProvider>
+			<Balance {...balanceMock} />
+		</DefaultProvider>
+	);
 
-	expect(balance).toBeTruthy();
+	expect(screen.getByText("R$ 1000.50")).toBeVisible();
 });
