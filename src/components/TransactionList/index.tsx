@@ -5,7 +5,7 @@ import { TransactionListProps } from "../../interfaces/TransactionList";
 export const noTransactionMessage = "Não possui transações salvas";
 
 const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
-	if (!transactions) return <div>Não possui transações salvas</div>;
+	if (!transactions) return <div role="alert"> {noTransactionMessage} </div>;
 
 	return (
 		<>

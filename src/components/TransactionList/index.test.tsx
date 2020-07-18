@@ -42,5 +42,5 @@ test(`Dado que o usuário abre o componente de lista de transações,
 		</DefaultProvider>
 	);
 
-	expect(screen.getByText(noTransactionMessage)).toBeVisible();
+	expect(screen.getByRole("alert")).toHaveTextContent(noTransactionMessage);
 });
