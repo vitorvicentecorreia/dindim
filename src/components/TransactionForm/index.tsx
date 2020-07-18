@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import RightArrow from "../../assets/rightArrow.js";
+import { RightArrow } from "../../components/Arrow";
 import {
 	KeyboardDateTimePicker,
 	MuiPickersUtilsProvider,
@@ -13,6 +13,7 @@ export const placeholderOfInputs = {
 };
 
 export const formError = "As informações estão incorretas ou invalidas.";
+export const submitButtonTitle = "Botão para enviar uma nova transação";
 
 export const categoriesOfTransaction = ["Compras", "Salario"];
 export const transactionTypes = ["income", "expense"];
@@ -44,7 +45,7 @@ const TransactionForm: React.FC<TransactionFormProps> = (props) => {
 			setError(true);
 			return;
 		}
-
+		setError(false);
 		const transactionPayload = {
 			description,
 			value: parseInt(value),
@@ -104,7 +105,7 @@ const TransactionForm: React.FC<TransactionFormProps> = (props) => {
 			</select>
 
 			<div onClick={() => handleFormSubmit()}>
-				<RightArrow />
+				<RightArrow title={submitButtonTitle} />
 			</div>
 			{error && <div>{formError}</div>}
 		</form>

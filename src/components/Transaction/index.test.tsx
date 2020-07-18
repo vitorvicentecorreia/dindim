@@ -1,13 +1,13 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import {
-	TransactionProps,
+	TransactionSchema,
 	TransactionTypes,
 } from "../../interfaces/Transaction";
 import DefaultProvider from "../../providers/DefaultProvider";
 import Transaction from "./index";
 
-const transactionMock: TransactionProps = {
+const transactionMock: TransactionSchema = {
 	category: "mercado",
 	datetime: new Date("2020-05-13T12:00:00"),
 	description: "Compra do mês",

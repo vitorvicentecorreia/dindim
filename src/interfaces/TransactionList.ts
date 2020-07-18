@@ -1,5 +1,5 @@
-import { TransactionProps } from "./Transaction";
+import { TransactionSchema } from "./Transaction";
 
 export interface TransactionListProps {
-	transactions?: Array<TransactionProps>;
+	transactions?: Array<TransactionSchema>;
 }

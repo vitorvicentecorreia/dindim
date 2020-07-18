@@ -6,10 +6,10 @@ import TransactionForm, {
 	categoriesOfTransaction,
 	transactionTypes,
 	formError,
+	submitButtonTitle,
 } from "./index";
 import DefaultProvider from "../../providers/DefaultProvider";
 import { defaultFormat } from "../../utils/date";
-import { formatISO } from "date-fns";
 
 const renderForm = (props = {}) => {
 	const defaultProps = {
@@ -38,7 +38,7 @@ test(`Dado que o usuário abriu o Form,
 		expect(screen.getByPlaceholderText(placeholder)).toBeVisible()
 	);
 	valuesOnScreen.forEach((value) => screen.getByDisplayValue(value));
-	expect(screen.getByTitle("Icone de seta pra direita")).toBeInTheDocument();
+	expect(screen.getByTitle(submitButtonTitle)).toBeInTheDocument();
 });
 
 test(`Dado que o usuário clicou no botão de enviar,
@@ -47,7 +47,7 @@ test(`Dado que o usuário clicou no botão de enviar,
 	const submitActionMockError = jest.fn();
 	renderForm();
 
-	userEvent.click(screen.getByTitle("Icone de seta pra direita"));
+	userEvent.click(screen.getByTitle(submitButtonTitle));
 	expect(submitActionMockError).not.toHaveBeenCalled();
 	expect(screen.getByText(formError)).toBeVisible();
 });
@@ -74,7 +74,21 @@ test(`Dado que o usuário clicou no botão de enviar,
 		screen.getByTestId("select-transaction-type"),
 		screen.getByText(transactionTypes[1])
 	);
-	userEvent.click(screen.getByTitle("Icone de seta pra direita"));
+	userEvent.click(screen.getByTitle(submitButtonTitle));
 
+	expect(screen.queryByText(formError)).not.toBeInTheDocument();
 	expect(submitActionMock).toBeCalledTimes(1);
+});
+
+test(`Dado que um usuário está digitando em algum input,
+	  e a mensagem de erro está na tela,
+	  a mensagem deverá sumir`, () => {
+	const submitActionHideError = jest.fn();
+	renderForm({ submitAction: submitActionHideError });
+	userEvent.click(screen.getByTitle(submitButtonTitle));
+	userEvent.type(
+		screen.getByPlaceholderText(placeholderOfInputs.description),
+		"C"
+	);
+	expect(screen.queryByText(formError)).not.toBeVisible();
 });

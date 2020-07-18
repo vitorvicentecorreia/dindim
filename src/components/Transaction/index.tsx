@@ -1,9 +1,9 @@
 import React, { useMemo, memo } from "react";
-import { TransactionProps } from "../../interfaces/Transaction";
+import { TransactionSchema } from "../../interfaces/Transaction";
 import currencyFormatted, { currencys } from "../../utils/currency";
 import { defaultFormat } from "../../utils/date";
 
-const Transaction: React.FC<TransactionProps> = ({
+const Transaction: React.FC<TransactionSchema> = ({
 	category,
 	datetime,
 	value,

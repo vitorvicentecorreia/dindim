@@ -4,7 +4,7 @@ export enum TransactionTypes {
 	Transfer = "transfer",
 }
 
-export interface TransactionProps {
+export interface TransactionSchema {
 	description: string;
 	value: number;
 	category: string;
